@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class MainActivity extends AppCompatActivity {
+    ArrayList<UsedCardModel> arrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,5 +18,21 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerContact);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Thar","8,00,000"));
+        arrayList.add(new UsedCardModel("BMW 3-Series 320d","6,00,000"));
+        arrayList.add(new UsedCardModel("BMW X1 sDrive20d","10,00,000"));
+        arrayList.add(new UsedCardModel("BMW 3-Series 320d Luxury Line","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
+
+        RecylerContentAdapter recylerContentAdapter = new RecylerContentAdapter(this, arrayList);
+        recyclerView.setAdapter(recylerContentAdapter);
     }
 }
