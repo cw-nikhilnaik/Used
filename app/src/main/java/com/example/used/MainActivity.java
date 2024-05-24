@@ -26,18 +26,18 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
-        Call<User> call = apiInterface.getUserInformation("Nikhil","Android Dev");
+        UsedCarListInterface usedCarListInterface = RetrofitClient.getRetrofitInstance().create(UsedCarListInterface.class);
+        Call<Used> call = usedCarListInterface.getUserInformation("20","198");
 
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<Used>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Log.e(TAG, "onResponse: "+ response.body().getJob() );
+            public void onResponse(Call<Used> call, Response<Used> response) {
+                Log.e(TAG, "onResponse: " + response );
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable throwable) {
-
+            public void onFailure(Call<Used> call, Throwable throwable) {
+                Log.e(TAG, "onFailure: " + throwable.getMessage() );
             }
         });
 
