@@ -36,7 +36,8 @@ public class RecylerContentAdapter extends RecyclerView.Adapter<RecylerContentAd
     @Override
     public void onBindViewHolder(@NonNull RecylerContentAdapter.ViewHolder holder, int position) {
         holder.carName.setText(arrayList.get(position).carName);
-        holder.formattedPrice.setText(arrayList.get(position).price);
+        holder.formattedPrice.setText(arrayList.get(position).getFormattedPrice());
+        holder.carDetails.setText(arrayList.get(position).getFormattedDetails());
 
         Glide.with(context).load(arrayList.get(position).imageUrl).into(holder.carImage);
 
@@ -49,13 +50,14 @@ public class RecylerContentAdapter extends RecyclerView.Adapter<RecylerContentAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView carName, formattedPrice;
+        TextView carName, formattedPrice, carDetails;
         ImageView carImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             carName = itemView.findViewById(R.id.carName);
             formattedPrice = itemView.findViewById((R.id.formattedPrice));
             carImage = itemView.findViewById(R.id.carImage);
+            carDetails = itemView.findViewById(R.id.usedCarDetails);
         }
     }
 }
