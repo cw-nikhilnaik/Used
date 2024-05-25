@@ -6,17 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<UsedCardModel> arrayList = new ArrayList<>();
+    ArrayList<UsedCarDetails> array = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +32,16 @@ public class MainActivity extends AppCompatActivity {
 
         UsedCarListInterface usedCarListInterface = RetrofitClient.getRetrofitInstance().create(UsedCarListInterface.class);
         Call<Used> call = usedCarListInterface.getUserInformation("20","198");
-
+        Context context = this;
         call.enqueue(new Callback<Used>() {
             @Override
             public void onResponse(Call<Used> call, Response<Used> response) {
-                Log.e(TAG, "onResponse: " + response );
+                Log.e(TAG, "onResponse: " + response.body().getStocks() );
+                array = response.body().getStocks();
+                Log.e(TAG, "onCreate: " + array.get(0).price );
+
+                RecylerContentAdapter recylerContentAdapter = new RecylerContentAdapter(context, array);
+                recyclerView.setAdapter(recylerContentAdapter);
             }
 
             @Override
@@ -41,20 +50,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Thar","8,00,000"));
-        arrayList.add(new UsedCardModel("BMW 3-Series 320d","6,00,000"));
-        arrayList.add(new UsedCardModel("BMW X1 sDrive20d","10,00,000"));
-        arrayList.add(new UsedCardModel("BMW 3-Series 320d Luxury Line","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-        arrayList.add(new UsedCardModel("Mahindra","10,00,000"));
-
-        RecylerContentAdapter recylerContentAdapter = new RecylerContentAdapter(this, arrayList);
-        recyclerView.setAdapter(recylerContentAdapter);
     }
 }

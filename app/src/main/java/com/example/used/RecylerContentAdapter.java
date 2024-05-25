@@ -10,13 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class RecylerContentAdapter extends RecyclerView.Adapter<RecylerContentAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<UsedCardModel>arrayList;
-    RecylerContentAdapter(Context context, ArrayList<UsedCardModel>arrayList){
+    ArrayList<UsedCarDetails>arrayList;
+    RecylerContentAdapter(Context context, ArrayList<UsedCarDetails>arrayList){
 
         this.context = context;
         this.arrayList=arrayList;
@@ -34,9 +36,9 @@ public class RecylerContentAdapter extends RecyclerView.Adapter<RecylerContentAd
     @Override
     public void onBindViewHolder(@NonNull RecylerContentAdapter.ViewHolder holder, int position) {
         holder.carName.setText(arrayList.get(position).carName);
-        holder.formattedPrice.setText(arrayList.get(position).formattedPrice);
+        holder.formattedPrice.setText(arrayList.get(position).price);
 
-
+        Glide.with(context).load(arrayList.get(position).imageUrl).into(holder.carImage);
 
 
     }

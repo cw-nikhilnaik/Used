@@ -1,15 +1,21 @@
 package com.example.used;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Used {
 
     private int totalCount;
     private boolean showSimilarCarsLink;
     private String searchPageDescription;
 
-    public Used(int totalCount, boolean showSimilarCarsLink, String searchPageDescription) {
+    private ArrayList<UsedCarDetails> stocks;
+
+    public Used(int totalCount, boolean showSimilarCarsLink, String searchPageDescription, ArrayList<UsedCarDetails>stocks) {
         this.totalCount = totalCount;
         this.showSimilarCarsLink = showSimilarCarsLink;
         this.searchPageDescription = searchPageDescription;
+        this.stocks = stocks;
     }
 
     public int getTotalCount() {
@@ -34,5 +40,13 @@ public class Used {
 
     public void setSearchPageDescription(String searchPageDescription) {
         this.searchPageDescription = searchPageDescription;
+    }
+
+    public ArrayList<UsedCarDetails> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(ArrayList<UsedCarDetails> stocks) {
+        this.stocks = stocks;
     }
 }
