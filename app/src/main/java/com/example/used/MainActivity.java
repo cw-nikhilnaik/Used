@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -19,7 +20,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<UsedCarDetails> array = new ArrayList<>();
+    private ArrayList<UsedCarDetails> usedCarDetailsList = new ArrayList<>();
+    private RecylerContentAdapter recylerContentAdapter;
+    private int currentPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +31,44 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerContact);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        UsedCarListInterface usedCarListInterface = RetrofitClient.getRetrofitInstance().create(UsedCarListInterface.class);
-        Call<Used> call = usedCarListInterface.getUserInformation("20","198");
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         Context context = this;
+
+        recylerContentAdapter = new RecylerContentAdapter(context, usedCarDetailsList);
+        recyclerView.setAdapter(recylerContentAdapter);
+
+        fetchUsedCarDetails(currentPage);
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                currentPage = currentPage +1;
+                fetchUsedCarDetails(currentPage);
+            }
+        });
+
+
+
+    }
+
+    private void fetchUsedCarDetails(int currentPage){
+        UsedCarListInterface usedCarListInterface = RetrofitClient.getRetrofitInstance().create(UsedCarListInterface.class);
+        RequestBody requestBody = new RequestBody(currentPage, 1);
+        Call<Used> call = usedCarListInterface.getUserInformation(requestBody);
         call.enqueue(new Callback<Used>() {
             @Override
             public void onResponse(Call<Used> call, Response<Used> response) {
-                Log.e(TAG, "onResponse: " + response.body().getStocks() );
-                array = response.body().getStocks();
-                Log.e(TAG, "onCreate: " + array.get(0).price );
+//                Log.e(TAG, "onResponse: " + response. );
+                Log.e(TAG, "onResponse: " + response.body().getNextPageUrl() );
+                List<UsedCarDetails> newItems= response.body().getStocks();
 
-                RecylerContentAdapter recylerContentAdapter = new RecylerContentAdapter(context, array);
-                recyclerView.setAdapter(recylerContentAdapter);
+                usedCarDetailsList.addAll(newItems);
+                recylerContentAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -49,6 +76,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: " + throwable.getMessage() );
             }
         });
-
     }
 }

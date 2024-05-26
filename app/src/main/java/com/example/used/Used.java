@@ -8,6 +8,7 @@ public class Used {
     private int totalCount;
     private boolean showSimilarCarsLink;
     private String searchPageDescription;
+    private String nextPageUrl;
 
     private ArrayList<UsedCarDetails> stocks;
 
@@ -16,6 +17,15 @@ public class Used {
         this.showSimilarCarsLink = showSimilarCarsLink;
         this.searchPageDescription = searchPageDescription;
         this.stocks = stocks;
+        this.nextPageUrl = nextPageUrl;
+    }
+
+    public String getNextPageUrl() {
+        return nextPageUrl;
+    }
+
+    public void setNextPageUrl(String nextPageUrl) {
+        this.nextPageUrl = nextPageUrl;
     }
 
     public int getTotalCount() {
